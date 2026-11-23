@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  {%- set pageTitle = title or site.title -%}
+  {%- set pageDescription = description or site.description -%}
+  {%- set canonical = page.url | absolute(site.url) %}
+
+  <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDescription }}">
+  <meta name="robots" content="{{ robots or 'index, follow, max-image-preview:large' }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <meta name="author" content="{{ site.name }}">
+  <meta name="theme-color" content="{{ site.themeColor }}">
+  <meta name="color-scheme" content="dark">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:locale" content="{{ site.locale }}">
+  <meta property="og:title" content="{{ pageTitle }}">
+  <meta property="og:description" content="{{ pageDescription }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:image" content="{{ site.ogImage | absolute(site.url) }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ site.ogImageAlt }}">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ pageTitle }}">
+  <meta name="twitter:description" content="{{ pageDescription }}">
+  <meta name="twitter:image" content="{{ site.ogImage | absolute(site.url) }}">
+  <meta name="twitter:image:alt" content="{{ site.ogImageAlt }}">
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/assets/brand/mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Type: Archivo (display + text), Instrument Serif (editorial), JetBrains Mono (metadata) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+  {% block preload %}{% endblock %}
+  <link rel="stylesheet" href="/assets/css/main.css?v={{ build }}">
+
+  {% block schema %}{% endblock %}
+
+  <script>
+    (function (d) {
+      d.classList.add('js');
+      try { if (sessionStorage.getItem('mf-intro')) d.classList.add('seen'); sessionStorage.setItem('mf-intro', '1'); } catch (e) { d.classList.add('seen'); }
+    })(document.documentElement);
+  </script>
+</head>
+<body class="{{ bodyClass }}">
+  <a class="skip" href="#main">Skip to content</a>
+  {% block content %}{{ content | safe }}{% endblock %}
+  <script src="/assets/js/main.js?v={{ build }}" defer></script>
+</body>
+</html>

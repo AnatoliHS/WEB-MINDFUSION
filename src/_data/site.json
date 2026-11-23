@@ -1,11 +1,21 @@
 {
-  "name": "MOPS INC",
-  "title": "Restoration Services You Can Trust",
-  "tagline": "From Emergency to Restored",
-  "license": "Certified Restoration Professionals",
-  "email": "hello@mopsinc.com",
-  "phone": "(613) 329-8439",
-  "address": "250 Sidney Street, Belleville, ON K8P 3Z3",
-  "url": "https://mopsinc.com/",
-  "year": "2026"
+  "name": "Mind Fusion",
+  "legalName": "Mind Fusion Visuals",
+  "url": "https://www.mindfusionvisuals.com",
+  "lang": "en-CA",
+  "locale": "en_CA",
+  "title": "Mind Fusion — Cinematic Film & Photography Production",
+  "description": "Mind Fusion is a film and photography production company built on disrupting the status quo — crafting cinematic, story-driven campaigns, documentaries and series for Loyalist College, L&A Hospital, Storyteller Beverages and more.",
+  "tagline": "Minds fused × stories born.",
+  "motto": "Disrupting Film, Uniting Minds",
+  "about": "Mind Fusion isn’t just another production company; it’s a catalyst for change in the film industry. We embody a philosophy of disrupting the status quo and fostering a collaborative and positive culture on set.",
+  "email": "info@mindfusionvisuals.com",
+  "ogImage": "/assets/og-image.jpg",
+  "ogImageAlt": "Mind Fusion — black-and-white portrait of a woman staring into the lens, washed in signal red",
+  "themeColor": "#0a0a0a",
+  "social": [
+    { "name": "Instagram", "url": "https://www.instagram.com/mindfusionvisuals/", "handle": "@mindfusionvisuals" },
+    { "name": "Facebook", "url": "https://www.facebook.com/mindfusionvisuals", "handle": "/mindfusionvisuals" }
+  ],
+  "credit": { "name": "AMP Visual Media", "url": "https://www.ampvisualmedia.com" }
 }

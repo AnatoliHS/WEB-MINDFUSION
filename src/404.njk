@@ -1,0 +1,30 @@
+---
+layout: false
+permalink: /404.html
+eleventyExcludeFromCollections: true
+title: "Scene missing — Mind Fusion"
+description: "This page didn’t make the final cut. Head back to Mind Fusion’s selected work."
+robots: "noindex, follow"
+bodyClass: "page-404"
+---
+{% extends "base.njk" %}
+{% block content %}
+<div class="grain" aria-hidden="true"></div>
+<main id="main" class="lost">
+  <a class="lost__brand" href="/" aria-label="{{ site.name }} — home">
+    <img src="/assets/brand/wordmark.png" alt="{{ site.name }}" width="512" height="153">
+  </a>
+  <p class="label mono">Error 404 <b>—</b> Scene missing</p>
+  <h1 class="lost__title">Cut<b>.</b></h1>
+  <p class="lost__text serif"><em>This one didn’t make the final edit.</em></p>
+  <a class="nav__cta lost__cta" href="/"><span>Back to the reel</span></a>
+</main>
+<style>
+  .lost { min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: 22px; padding: 96px var(--g); text-align: center; }
+  .lost__brand { position: absolute; top: 24px; left: var(--g); }
+  .lost__brand img { width: 132px; height: auto; }
+  .lost__title { font-weight: 800; font-stretch: 72%; text-transform: uppercase; line-height: .8; font-size: clamp(120px, 34vw, 520px); }
+  .lost__text { font-size: clamp(24px, 3vw, 40px); color: var(--bone-2); }
+  .lost__cta { justify-self: center; margin-top: 12px; }
+</style>
+{% endblock %}

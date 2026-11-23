@@ -132,3 +132,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Build output
+dist/
+
+# Full-resolution originals pulled from the Framer site (kept locally, ~117MB)
+source-assets/

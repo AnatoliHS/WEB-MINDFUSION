@@ -1,0 +1,172 @@
+[
+  {
+    "slug": "loyalist",
+    "title": "Loyalist College",
+    "lines": [
+      "Loyalist",
+      "College"
+    ],
+    "client": "Loyalist College",
+    "discipline": "Brand Campaign — Photo + Film",
+    "note": "“You Belong”",
+    "aspect": "16/9",
+    "description": "We approached Loyalist’s “You Belong” campaign as a film about identity, building a visual language that reflects the quiet power of finding your place and your people. Through a full-scale photo and video rollout, the work leans into intimacy and connection, prioritizing story and emotion over traditional marketing to create something that feels lived-in, not manufactured.",
+    "stills": [
+      {
+        "src": "loyalist-01",
+        "alt": "Close-up of hands at a grinder throwing a shower of golden sparks"
+      },
+      {
+        "src": "loyalist-02",
+        "alt": "A student holding a stack of books looks up between tall library shelves"
+      },
+      {
+        "src": "loyalist-03",
+        "alt": "A welder in a hood works under a fluorescent light as sparks scatter across the shop"
+      }
+    ],
+    "hasSound": false
+  },
+  {
+    "slug": "lumberjacq",
+    "title": "LumberJacq",
+    "lines": [
+      "Lumber",
+      "Jacq"
+    ],
+    "client": "Jacquie Rowe",
+    "discipline": "Documentary Portrait",
+    "note": "A portrait of Jacquie Rowe",
+    "aspect": "2.39/1",
+    "description": "LumberJacq is an intimate portrait of Jacquie Rowe, a cancer survivor who rebuilt her life through craft, transforming reclaimed wood into work that reflects both resilience and reinvention. Rooted in themes of identity, motherhood, and control, the film explores what it means to lose one version of yourself and deliberately shape another — not out of choice, but necessity.",
+    "stills": [
+      {
+        "src": "lumberjacq-01",
+        "alt": "Jacquie Rowe silhouetted against a roaring bonfire at dusk"
+      },
+      {
+        "src": "lumberjacq-02",
+        "alt": "Flames consume a pile of branches beneath a deep blue evening sky"
+      },
+      {
+        "src": "lumberjacq-03",
+        "alt": "Jacquie and her two sons stand together in the blue light after sunset"
+      }
+    ],
+    "hasSound": true
+  },
+  {
+    "slug": "la-hospital",
+    "title": "L&A Hospital",
+    "lines": [
+      "L&A",
+      "Hospital"
+    ],
+    "client": "L&A Hospital",
+    "discipline": "Short Film Series",
+    "note": "Families and donors, at home",
+    "aspect": "16/9",
+    "description": "An intimate series of short films capturing the lived experiences of families and donors connected to the hospital, told within the spaces they call home. Grounded in honesty and restraint, the work prioritizes real voices and human connection, shaping a narrative around why access to care matters on a deeply personal level.",
+    "stills": [
+      {
+        "src": "la-hospital-01",
+        "alt": "A man in a dark jacket gazes into the distance under a wide, cloudy sky"
+      },
+      {
+        "src": "la-hospital-02",
+        "alt": "A patient in a hospital gown sits on the edge of a bed, glimpsed through a doorway"
+      },
+      {
+        "src": "la-hospital-03",
+        "alt": "Overhead view of a patient sitting on a bed in a quiet hospital room"
+      }
+    ],
+    "hasSound": false
+  },
+  {
+    "slug": "facts-of-fishing",
+    "title": "Facts of Fishing The Show",
+    "lines": [
+      "Facts of",
+      "Fishing",
+      "The Show"
+    ],
+    "client": "Facts of Fishing",
+    "discipline": "Television Series",
+    "note": "Long-running series",
+    "aspect": "16/9",
+    "description": "A long-running television series built around the pursuit of fishing, elevated through personality, pace, and a deep respect for the environments it lives in. Our approach leans into a more cinematic, story-driven style, balancing high-energy moments with quieter, immersive sequences that let the experience unfold rather than rush to the catch.",
+    "stills": [
+      {
+        "src": "facts-of-fishing-01",
+        "alt": "An angler in sunglasses holds up a smallmouth bass on a calm lake"
+      },
+      {
+        "src": "facts-of-fishing-02",
+        "alt": "An angler casts from the bow of a boat as morning mist lifts off the water"
+      },
+      {
+        "src": "facts-of-fishing-03",
+        "alt": "Aerial view of a fishing boat carving a long wake across a still lake"
+      }
+    ],
+    "hasSound": false
+  },
+  {
+    "slug": "storyteller",
+    "title": "Storyteller Beverages",
+    "lines": [
+      "Storyteller",
+      "Beverages"
+    ],
+    "client": "Storyteller Beverages",
+    "discipline": "Commercial + Social Campaign",
+    "note": "Storyteller Lager",
+    "aspect": "16/9",
+    "description": "A cinematic exploration of storytelling as both burden and release, the film follows the internal weight carried by those who shape worlds and give them meaning. Built on atmosphere and emotion, the piece positions Storyteller Lager as a quiet reward at the end of that process. A drink earned by those who’ve lived through the work, not just imagined it.",
+    "pullquote": "For Storyteller Lager, we created a captivating commercial and social media campaign that builds intrigue while celebrating the craft of storytelling itself. Our cinematic approach weaves narrative tension throughout the piece, engaging viewers without revealing the complete story — leaving them wanting more.",
+    "stills": [
+      {
+        "src": "storyteller-01",
+        "alt": "A can of Storyteller Lager on a desk between the pages of an open book, a writer behind it"
+      },
+      {
+        "src": "storyteller-02",
+        "alt": "Firelight glows behind the keys of an antique Underwood typewriter"
+      },
+      {
+        "src": "storyteller-03",
+        "alt": "Overhead view of hands typing on a vintage typewriter in warm amber light"
+      }
+    ],
+    "hasSound": false
+  },
+  {
+    "slug": "belleville-biq",
+    "title": "Belleville BIQ",
+    "lines": [
+      "Belleville",
+      "BIQ"
+    ],
+    "client": "Belleville BIQ",
+    "discipline": "Short-form Film Series",
+    "note": "Local business owners",
+    "aspect": "16/9",
+    "description": "A series of short-form films highlighting local business owners who built their livelihoods around passion, not just profit. Rooted in authenticity and place, the campaign captures real stories of creation and growth, positioning Belleville as a community where independent ideas can take hold and thrive.",
+    "stills": [
+      {
+        "src": "belleville-biq-01",
+        "alt": "A designer concentrates at her sewing machine in a bright studio"
+      },
+      {
+        "src": "belleville-biq-02",
+        "alt": "The round sign of Benji’s coffee bar hangs off a brick wall above a downtown intersection"
+      },
+      {
+        "src": "belleville-biq-03",
+        "alt": "A man silhouetted in a storefront window, looking at his phone as traffic passes at dusk"
+      }
+    ],
+    "hasSound": false
+  }
+]

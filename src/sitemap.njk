@@ -1,0 +1,20 @@
+---
+layout: false
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  {%- for item in collections.all %}
+  <url>
+    <loc>{{ item.url | absolute(site.url) }}</loc>
+    <lastmod>{{ item.date.toISOString().slice(0, 10) }}</lastmod>
+    {%- if item.url == "/" %}
+    <image:image><image:loc>{{ site.url }}{{ site.ogImage }}</image:loc></image:image>
+    {%- for p in projects %}{% for s in p.stills %}
+    <image:image><image:loc>{{ site.url }}/assets/img/{{ s.src }}-2400.jpg</image:loc></image:image>
+    {%- endfor %}{% endfor %}
+    {%- endif %}
+  </url>
+  {%- endfor %}
+</urlset>

@@ -1,13 +1,13 @@
 help: 
 	#########################################################################################
 	#                                                                                       #                                             
-	#                               @Startr/WEB-11ty Makefile                               #
+	#                                  Mind Fusion Makefile                                  #
 	#                                                                                       #
 	#  This is the default make command. It will show you all the available make commands	#
 	#  If you haven't already we start by installing the development environment            #
 	#                                                                                       #
 	#  `make this_dev_env` once you have done that you can start using the other commands	#
-	#  `make it_run` will build and run the project using `bun run start`                   #
+	#  `make it_run` will build and run the project using `npm start`                   #
 	#  `make things_clean` will clean the project of all untracked files                    #
 	#  `make feature <feature_name>` will start a new feature branch                        #
 	#  `make feature_finish` will finish the current feature branch                         #
@@ -22,7 +22,7 @@ help:
 	@LC_ALL=C $(MAKE) -pRrq -f $(firstword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/(^|\n)# Files(\n|$$)/,/(^|\n)# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | grep -E -v -e '^[^[:alnum:]]' -e '^$@$$'
 
 it_run:
-	bun run start
+	npm start
 
 
 this_dev_env:
@@ -41,12 +41,12 @@ this_dev_env:
 	# install pre-commit hooks
 	#pre-commit install
 	#NOTE we don't yet use pre-commit hooks
-	# install bun if necessary
-	brew install bun
+	# install node if necessary
+	brew install node
 	# Setup git flow
 	$(MAKE) things_flow
 	# install dev packages
-	bun install --dev
+	npm install
 
 things_flow:
 	#
