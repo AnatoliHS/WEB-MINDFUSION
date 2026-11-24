@@ -1,0 +1,35 @@
+---
+layout: false
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+---
+{#- Plain text, not HTML: every value is output with | safe so nothing gets entity-escaped. -#}
+# {{ site.name | safe }}
+
+> {{ site.description | safe }}
+
+{{ site.name | safe }} ({{ site.legalName | safe }}) is a film and photography production company. {{ site.about | safe }} Motto: "{{ site.motto | safe }}".
+
+What we make: film, photography, commercials, documentary, television and social content.
+
+## Selected work
+{% for p in projects %}
+- [{{ p.title | safe }}]({{ site.url | safe }}/#{{ p.slug | safe }}): {{ p.discipline | safe }}. {{ p.description | safe }}
+{%- endfor %}
+
+## What clients say
+{% for t in testimonials %}
+- {{ t.name | safe }}, {{ t.role | safe }} at {{ t.company | safe }}: "{{ t.quote | safe }}"
+{%- endfor %}
+
+## Contact
+
+- [Email]({{ "mailto:" + site.email | safe }}): {{ site.email | safe }}
+{%- for s in site.social %}
+- [{{ s.name | safe }}]({{ s.url | safe }}): {{ s.handle | safe }}
+{%- endfor %}
+
+## Optional
+
+- [Homepage]({{ site.url | safe }}/): the full site, with the showreel and every project film
+- [Sitemap]({{ site.url | safe }}/sitemap.xml)

@@ -437,10 +437,15 @@
       m.classList.add("is-visible");
       m.focus({ preventScroll: true });
       current = i;
+      history.replaceState(null, "", "#" + slugs[i]);
       dispatchEvent(new Event("scroll"));       // let reveals/parallax measure the new content
+    };
+    const clearHash = () => {
+      if (slugs.includes(location.hash.slice(1))) history.replaceState(null, "", location.pathname + location.search);
     };
     const hideModal = (i) => {
       const m = modalFor(i);
+      clearHash();
       m.classList.remove("is-open", "is-visible");
       m.removeAttribute("role");
       m.removeAttribute("aria-modal");
@@ -562,6 +567,23 @@
       if ($("dialog[open]")) return;              // the stills lightbox handles its own Escape
       close();
     });
+
+    // deep links (/#loyalist etc. — used by the sitemap, schema and llms.txt) open the project.
+    // The page is parked on the selector underneath, so closing lands somewhere sensible.
+    const fromHash = async () => {
+      const i = slugs.indexOf(decodeURIComponent(location.hash.slice(1)));
+      if (i < 0 || !wide.matches || busy || current >= 0) return;
+      busy = true;
+      const html = document.documentElement, prev = html.style.scrollBehavior;
+      html.style.scrollBehavior = "auto";
+      scrollTo(0, picker.getBoundingClientRect().top + scrollY - Math.max(0, (innerHeight - picker.offsetHeight) / 2));
+      html.style.scrollBehavior = prev;
+      fillInstantly(i);
+      await showModal(i);
+      busy = false;
+    };
+    addEventListener("hashchange", fromHash);
+    fromHash();
 
     // if the window narrows to mobile with a modal open, put everything back
     wide.addEventListener("change", (e) => {
