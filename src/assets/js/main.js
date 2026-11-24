@@ -139,54 +139,6 @@
     });
   }
 
-  /* ───────── work index: floating video preview ───────── */
-  const box = $("[data-preview-box]");
-  if (box && finePointer) {
-    const items = Object.fromEntries($$("[data-preview-item]", box).map((el) => [el.dataset.previewItem, el]));
-    const tag = $("[data-preview-tag]", box);
-    let mx = innerWidth / 2, my = innerHeight / 2, x = mx, y = my, s = 0.6, ts = 0.6, on = false, raf = 0, current = null;
-
-    const loop = () => {
-      const dx = mx - x;
-      x = lerp(x, mx, 0.14); y = lerp(y, my, 0.14); s = lerp(s, ts, 0.12);
-      box.style.setProperty("--px", x.toFixed(1) + "px");
-      box.style.setProperty("--py", y.toFixed(1) + "px");
-      box.style.setProperty("--ps", s.toFixed(3));
-      box.style.setProperty("--pr", clamp(dx * 0.04, -8, 8).toFixed(2) + "deg");
-      raf = on || Math.abs(s - ts) > 0.01 ? requestAnimationFrame(loop) : 0;
-    };
-    const show = (slug, label) => {
-      if (current && current !== items[slug]) {
-        current.classList.remove("is-on");
-        const v = $("video", current); v && v.pause();
-      }
-      current = items[slug];
-      if (!current) return;
-      const v = $("video", current);
-      if (v && !v.src) v.src = v.dataset.src;
-      v && v.play().catch(() => {});
-      current.classList.add("is-on");
-      tag.textContent = label;
-      on = true; ts = 1; box.classList.add("is-on");
-      if (!raf) raf = requestAnimationFrame(loop);
-    };
-    const hide = () => {
-      on = false; ts = 0.6; box.classList.remove("is-on");
-      if (current) { const v = $("video", current); v && v.pause(); }
-      if (!raf) raf = requestAnimationFrame(loop);
-    };
-    $$("[data-preview]").forEach((a) => {
-      a.addEventListener("pointerenter", (e) => {
-        mx = e.clientX; my = e.clientY;
-        if (!on) { x = mx; y = my; }
-        show(a.dataset.preview, $(".index__no", a).textContent + " — " + $(".index__disc", a).textContent);
-      });
-      a.addEventListener("pointermove", (e) => { mx = e.clientX; my = e.clientY; });
-    });
-    $("[data-index]").addEventListener("pointerleave", hide);
-    addEventListener("scroll", () => on && hide(), { passive: true });
-  }
-
   /* ───────── chapter films: lazy, play-in-view, sound toggle ───────── */
   const films = $$("[data-film]");
   const sourceFor = (v) => (small() ? v.dataset.srcSm : v.dataset.src);
@@ -371,9 +323,7 @@
     document.addEventListener("pointerenter", () => cursor.classList.remove("is-hidden"));
     document.addEventListener("pointerover", (e) => {
       const t = e.target.closest("[data-cursor]");
-      const inPreview = e.target.closest("[data-preview]");
       cursor.classList.toggle("is-active", !!t);
-      cursor.classList.toggle("is-hidden", !!inPreview);
       if (t) label.textContent = t.dataset.cursor;
     });
     const run = () => {
@@ -385,56 +335,263 @@
     requestAnimationFrame(run);
   }
 
-  /* ───────── edit-timeline scrubber ───────── */
-  const tl = $("[data-timeline]");
-  if (tl) {
-    const fill = $("[data-fill]", tl), tcEl = $("[data-scroll-tc]", tl), nowEl = $("[data-now]", tl), trackEl = $("[data-track]", tl);
-    const chapters = $$("[data-chapter]");
-    const ticks = $$("[data-tick]", tl);
-    const work = $("#work"), wordsEl = $("#words"), contact = $("#contact");
-    let max = 1, marks = [];
-    measures.push(() => {
-      max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-      marks = chapters.map((c) => c.offsetTop - innerHeight * 0.4);
-      ticks.forEach((t, n) => t.style.setProperty("--at", ((marks[n] / max) * 100).toFixed(2) + "%"));
-    });
-    tasks.push((y) => {
-      const p = clamp(y / max);
-      fill.style.setProperty("--prog", p.toFixed(4));
-      tcEl.textContent = tc(y / 4);                         // every 4px of scroll is one frame
-      tl.classList.toggle("is-on", y > (hero ? hero.offsetHeight - innerHeight : 0) && y < max - 40);
-      let label = "Intro", n = -1;
-      if (work && y >= work.offsetTop - innerHeight * 0.5) label = "Selected work";
-      marks.forEach((m, k) => { if (y >= m) n = k; });
-      if (n >= 0) label = `Ch. ${chapters[n].dataset.no} — ${chapters[n].dataset.title}`;
-      if (wordsEl && y >= wordsEl.offsetTop - innerHeight * 0.5) label = "What they said";
-      if (contact && y >= contact.offsetTop - innerHeight * 0.5) label = "Contact";
-      nowEl.textContent = label;
-      ticks.forEach((t, k) => t.classList.toggle("is-past", k <= n));
-    });
-    trackEl.addEventListener("click", (e) => {
-      const r = trackEl.getBoundingClientRect();
-      const target = clamp((e.clientX - r.left) / r.width) * max;
-      // snap to the nearest chapter if close
-      let best = target;
-      marks.forEach((m) => { if (Math.abs(m + innerHeight * 0.4 - target) < max * 0.03) best = m + innerHeight * 0.4; });
-      scrollTo({ top: best, behavior: reduced ? "auto" : "smooth" });
-    });
-  }
-
-  /* ───────── footer wordmark: fit to width ───────── */
-  const fit = $("[data-fit]");
-  if (fit) {
-    measures.push(() => {
-      fit.style.fontSize = "100px";
-      const avail = fit.parentElement.clientWidth - parseFloat(getComputedStyle(fit.parentElement).paddingLeft) * 2;
-      fit.style.fontSize = Math.floor((avail / fit.scrollWidth) * 100 * 0.995) + "px";
-    });
-  }
-
   /* ───────── boot ───────── */
   const boot = () => { measure(); onScroll(); };
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(boot);
   addEventListener("load", boot);
   boot();
+})();
+
+/* ───────── desktop motion layer: project selector + modals, link roll ───────── */
+(() => {
+  "use strict";
+
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const wide = matchMedia("(min-width: 901px)");
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const nextFrame = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const box = (r) => ({ left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+  const fullBox = () => ({ left: "0px", top: "0px", width: innerWidth + "px", height: innerHeight + "px" });
+  const IO = "cubic-bezier(0.76, 0, 0.24, 1)";
+
+  /* ── 1 · Project selector + project modals (ref 03).
+        Hover a column → its slice wipes up on a slant.
+        Click → every slice cascades up from that column, the stitched frame grows to
+        fill the screen, and the project's modal fades in on top of it. Its first
+        screen is the same frame as the film poster, so it reads as one image.
+        Close runs the same thing backwards. ── */
+  const picker = $("[data-picker]");
+  const modals = $$("[data-pmodal]");
+  if (picker && modals.length) {
+    const layers = $$("[data-layer]", picker);
+    const slices = layers.map((l) => $$(".picker__slice", l));
+    const btns = $$("[data-pick]", picker);
+    const slugs = btns.map((a) => a.hash.slice(1));
+    const n = btns.length, STEP = 70, WIPE = 950, FADE = 450;
+    let peek = -1, current = -1, busy = false;
+
+    /* selector state */
+    const raise = (i) => layers.forEach((l, k) => l.classList.toggle("is-top", k === i));
+    const slice = (i, c, on, delay = 0) => {
+      const s = slices[i][c];
+      s.style.setProperty("--d", delay + "ms");
+      s.classList.toggle("is-on", on);
+    };
+    const instantly = (fn) => {
+      picker.classList.add("no-anim"); fn(); void picker.offsetWidth; picker.classList.remove("no-anim");
+    };
+    const setPeek = (i) => {
+      if (busy || current >= 0 || i === peek) return;
+      if (peek >= 0) slice(peek, peek, false);
+      peek = i;
+      if (i >= 0) { raise(i); slice(i, i, true); }
+      picker.classList.toggle("is-peek", i >= 0);
+    };
+    // show project i's frame across the whole selector, without animating
+    const fillInstantly = (i) => instantly(() => {
+      slices.forEach((row, k) => row.forEach((_, c) => slice(k, c, k === i)));
+      raise(i); peek = i;
+      picker.classList.add("is-open", "is-peek");
+    });
+
+    /* a fixed copy of the frame used to bridge selector ↔ modal */
+    const curtain = (i, z) => {
+      const el = document.createElement("div");
+      el.className = "picker-curtain";
+      el.style.backgroundImage = getComputedStyle(layers[i]).getPropertyValue("--img");
+      if (z) el.style.zIndex = z;
+      document.body.appendChild(el);
+      return el;
+    };
+    const drop = (el) => el && el.parentNode && el.parentNode.removeChild(el);
+
+    /* keep focus and assistive tech inside the open modal */
+    let inerted = [];
+    const isolate = (modal, on) => {
+      inerted.forEach((el) => { el.inert = false; });
+      inerted = [];
+      if (!on) return;
+      const keep = (el) => el.contains(modal) || el.tagName === "SCRIPT" || el.tagName === "DIALOG";
+      let node = modal;
+      while (node && node !== document.body) {
+        const parent = node.parentElement;
+        for (const sib of parent.children) if (sib !== node && !keep(sib)) { sib.inert = true; inerted.push(sib); }
+        node = parent;
+      }
+    };
+
+    const modalFor = (i) => modals.find((m) => m.dataset.pmodal === slugs[i]);
+
+    const showModal = async (i) => {
+      const m = modalFor(i);
+      m.scrollTop = 0;
+      m.classList.remove("is-scrolled");
+      m.setAttribute("role", "dialog");
+      m.setAttribute("aria-modal", "true");
+      m.classList.add("is-open");
+      document.documentElement.classList.add("has-pmodal");
+      isolate(m, true);
+      await nextFrame();
+      m.classList.add("is-visible");
+      m.focus({ preventScroll: true });
+      current = i;
+      dispatchEvent(new Event("scroll"));       // let reveals/parallax measure the new content
+    };
+    const hideModal = (i) => {
+      const m = modalFor(i);
+      m.classList.remove("is-open", "is-visible");
+      m.removeAttribute("role");
+      m.removeAttribute("aria-modal");
+      $$("video", m).forEach((v) => v.pause());
+    };
+
+    const open = async (i) => {
+      if (busy || current >= 0) return;
+      busy = true;
+      if (reduced) { fillInstantly(i); await showModal(i); busy = false; return; }
+
+      // 1 · cascade the frame across every column
+      if (peek >= 0 && peek !== i) slice(peek, peek, false);
+      peek = i; raise(i);
+      picker.classList.add("is-open");
+      for (let c = 0; c < n; c++) slice(i, c, true, Math.abs(c - i) * STEP);
+      await wait(Math.max(i, n - 1 - i) * STEP + WIPE);
+
+      // 2 · grow it to the whole screen
+      const c = curtain(i);
+      const from = box(picker.getBoundingClientRect()), to = fullBox();
+      Object.assign(c.style, from);
+      await c.animate([from, to], { duration: 700, easing: IO, fill: "forwards" }).finished;
+
+      // 3 · the modal fades in over it (its first screen is the same frame)
+      await showModal(i);
+      await wait(FADE);
+      drop(c);
+      busy = false;
+    };
+
+    const close = async () => {
+      if (busy || current < 0) return;
+      busy = true;
+      const i = current, m = modalFor(i), btn = btns[i];
+      fillInstantly(i);
+      if (reduced) {
+        hideModal(i); isolate(m, false); document.documentElement.classList.remove("has-pmodal");
+        current = -1; busy = false; instantly(() => slices[i].forEach((_, c) => slice(i, c, false)));
+        picker.classList.remove("is-open", "is-peek"); peek = -1;
+        btn.focus({ preventScroll: true });
+        return;
+      }
+
+      // 1 · a full-screen frame waits underneath while the modal fades away
+      const c = curtain(i, 105);
+      const full = fullBox();
+      Object.assign(c.style, full);
+      m.classList.remove("is-visible");
+      await wait(FADE);
+      hideModal(i);
+      isolate(m, false);
+      document.documentElement.classList.remove("has-pmodal");
+      current = -1;
+
+      // 2 · shrink it back onto the selector
+      const to = box(picker.getBoundingClientRect());
+      await c.animate([full, to], { duration: 700, easing: IO, fill: "forwards" }).finished;
+      drop(c);
+
+      // 3 · retract the columns from the outside in, back to this column's peek
+      const far = Math.max(i, n - 1 - i);
+      for (let k = 0; k < n; k++) if (k !== i) slice(i, k, false, (far - Math.abs(k - i)) * 45);
+      picker.classList.remove("is-open");
+      busy = false;
+      btn.focus({ preventScroll: true });
+      if (!picker.matches(":hover")) setPeek(-1);
+    };
+
+    const next = async (slug) => {
+      if (busy || current < 0) return;
+      const j = slugs.indexOf(slug);
+      if (j < 0) return;
+      busy = true;
+      const i = current, m = modalFor(i);
+      m.classList.remove("is-visible");
+      await wait(reduced ? 0 : FADE);
+      hideModal(i);
+      fillInstantly(j);
+      await showModal(j);
+      busy = false;
+    };
+
+    btns.forEach((a, i) => {
+      a.addEventListener("pointerenter", () => setPeek(i));
+      a.addEventListener("focus", () => setPeek(i));
+      a.addEventListener("click", (e) => {
+        if (!wide.matches) return;                // mobile never shows the selector, but be safe
+        e.preventDefault();
+        open(i);
+      });
+    });
+    picker.addEventListener("pointerleave", () => setPeek(-1));
+
+    modals.forEach((m) => {
+      $("[data-pmodal-close]", m).addEventListener("click", close);
+      $("[data-pmodal-next]", m).addEventListener("click", (e) => next(e.currentTarget.dataset.pmodalNext));
+      // scroll cue: glide down to the story, and fade the cue once the reader moves
+      const more = $("[data-film-more]", m), rule = $(".chapter__rule", m);
+      if (more && rule) more.addEventListener("click", () => {
+        const top = rule.getBoundingClientRect().top - m.getBoundingClientRect().top + m.scrollTop - 24;
+        m.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+      });
+      // window-scroll driven effects (stills parallax) follow the modal's own scroll
+      let ticking = false;
+      m.addEventListener("scroll", () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          m.classList.toggle("is-scrolled", m.scrollTop > 40);
+          dispatchEvent(new Event("scroll"));
+        });
+      }, { passive: true });
+    });
+
+    addEventListener("keydown", (e) => {
+      if (e.key !== "Escape" || current < 0) return;
+      if ($("dialog[open]")) return;              // the stills lightbox handles its own Escape
+      close();
+    });
+
+    // if the window narrows to mobile with a modal open, put everything back
+    wide.addEventListener("change", (e) => {
+      if (e.matches || current < 0) return;
+      const i = current;
+      hideModal(i); isolate(modalFor(i), false);
+      document.documentElement.classList.remove("has-pmodal");
+      current = -1; busy = false;
+      instantly(() => slices.forEach((row, k) => row.forEach((_, c) => slice(k, c, false))));
+      picker.classList.remove("is-open", "is-peek"); peek = -1;
+    });
+  }
+
+  /* ── 2 · Per-letter roll on hover for nav and footer links (ref 08). ── */
+  if (!reduced) {
+    $$(".nav__links a, .contact__col a.link:not(.mono)").forEach((a) => {
+      const text = a.textContent.trim();
+      if (!text) return;
+      a.setAttribute("aria-label", text);
+      const roll = document.createElement("span");
+      roll.className = "roll";
+      roll.setAttribute("aria-hidden", "true");
+      [...text].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.textContent = ch === " " ? " " : ch;
+        s.style.setProperty("--i", i);
+        roll.appendChild(s);
+      });
+      a.textContent = "";
+      a.appendChild(roll);
+    });
+  }
 })();
